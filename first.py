@@ -52,3 +52,4 @@ def find_palindromes(list):
             lit.append(word)
     return lit
 ##hi
+##after push
