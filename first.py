@@ -51,3 +51,4 @@ def find_palindromes(list):
         if(is_palindrom(word)):
             lit.append(word)
     return lit
+##hi
