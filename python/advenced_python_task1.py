@@ -17,7 +17,6 @@ for wrd in lst[1:]:
         
 sort = sorted(dicti,key=lambda wrd:wrd["times"] , reverse=True)
 
-names = []
-for i in range (len(sort)):
-    names.append(sort[i]["word"])
-print (names[:sys.argv[1]])
+final = sort[:int(sys.argv[1])]
+for i in range(len(final)):
+    print(f"the word '{final[i]["word"]}' accured {final[i]["times"]} times")
