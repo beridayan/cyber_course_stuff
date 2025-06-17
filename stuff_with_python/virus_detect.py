@@ -1,5 +1,4 @@
 import requests
-import time
 import os
 
 def check_path_type(path):
@@ -16,7 +15,7 @@ def isvirus(path):
     with open(file_path, 'rb') as f:
         files = {'file': (file_path, f)}
         headers = {"x-apikey": API_KEY}
-        response = requests.post('https://www.virustotal.com/api/v3/files', files=files, headers=headers)
+        response = requests.post('https://www.virustotal.com/api/v2/files', files=files, headers=headers)
 
     if response.status_code != 200:
         print("Upload failed")
@@ -37,11 +36,10 @@ def isvirus(path):
             suspicious = stats.get('suspicious', 0)
 
             if malicious > 0 or suspicious > 0:
-                return True   # Infected
+                return True   # יש וירוס 
             else:
-                return False  # Clean
-        else:
-            time.sleep(2)
+                return False  # אין וירוס 
+        
 def list_files_in_folder(folder_path):
     if not os.path.isdir(folder_path):
         return []
@@ -55,9 +53,12 @@ def scan_folder_for_viruses(folder_path):
         for file in files:
             full_path = os.path.join(root, file)
             print(f"Scanning: {full_path}")
+            if check_path_type(folder_path) == "directory":
+                return scan_folder_for_viruses(folder_path)
             if isvirus(full_path):
                 print(f"Infected file found: {full_path}")
                 return True
 
     print("No infected files found.")
     return False
+check_path_type(input("enter path to check"))
