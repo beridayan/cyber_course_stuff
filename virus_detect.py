@@ -80,7 +80,7 @@ def scan_folder_for_viruses(folder_path):
                     print(f"Infected file found: {full_path}")
                     return True
             else:
-                return scan_folder_for_viruses(full_path)
+                return scan_folder_for_viruses(full_path) # if it is a folder then check for virus inside it 
     print("No infected files found.")
     return False
 print(scan_folder_for_viruses(input("input_path (use double '\\'): ")))

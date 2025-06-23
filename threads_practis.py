@@ -5,7 +5,7 @@ lock = threading.Lock() # mutex for locking count
 def increase_num():
     global count
     for i in range(1000000):
-        with lock: # with - סוגר את הנעול כאשר מגדילים את הסופר ופותח אותו כאשר יוצאים מ ה - :(נקודותיים)
+        with lock: # with - סוגר את הנעול כאשר מגדילים את הסופר ופותח אותו כאשר יוצאים מ ה - ':' (נקודותיים)
             count+=1
         # אפשר לעשות גם : 
         #lock.acquire() # נועל
