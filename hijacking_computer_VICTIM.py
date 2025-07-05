@@ -9,7 +9,7 @@ from pynput.keyboard import Key, Controller as KeyboardController
 
 mouse = MouseController()
 keyboard = KeyboardController()
-
+mouse.move(0, -2)#offset fix
 # Connect to server
 server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ip = '10.0.0.25'
