@@ -4,14 +4,32 @@ import cv2
 import numpy as np
 import mss
 import threading
+from pynput.mouse import Button, Controller as MouseController
+from pynput.keyboard import Key, Controller as KeyboardController
+
+mouse = MouseController()
+keyboard = KeyboardController()
 
 # Connect to server
 server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ip = '127.0.0.1'
+ip = '10.0.0.25'
 port = 12345
 server_sock.connect((ip, port))
 print("Connected")
-
+special_keys = {
+    'Key.space': Key.space,
+    'Key.enter': Key.enter,
+    'Key.shift': Key.shift,
+    'Key.ctrl': Key.ctrl,
+    'Key.alt': Key.alt,
+    'Key.esc': Key.esc,
+    'Key.backspace': Key.backspace,
+    'Key.tab': Key.tab,
+    'Key.up': Key.up,
+    'Key.down': Key.down,
+    'Key.left': Key.left,
+    'Key.right': Key.right,
+}
 def send_text(msg):
     data = msg.encode()
     header = b'T' + str(len(data)).zfill(10).encode()
@@ -44,6 +62,44 @@ def recv_all(sock, size):
             return None
         data += part
     return data
+def update_pos(text):
+    parts = text.split()
+    type = parts[0]
+
+    if type == "move":
+        
+        # Set pointer position
+        mouse.position = (int(parts[1]), int(parts[2]))
+        print('Now we have moved it to {}'.format(
+            mouse.position))
+
+        # Press and release
+    elif type == "click":
+        if parts[1] == "Button.left":
+            mouse.press(Button.left)
+            mouse.release(Button.left)
+        else:
+            mouse.press(Button.right)
+            mouse.release(Button.right)
+
+    elif type == "scroll":
+        if parts[1] == "down":
+            mouse.scroll(0, -1)  
+
+        else:
+            mouse.scroll(0, 1)  
+    elif type == "key" :
+        keyboard.press(parts[1])
+        keyboard.release(parts[1])
+    # Press and release space
+    elif type == "s_key":
+        keyboard.press( special_keys.get(parts[1], parts[1]))
+        keyboard.release(special_keys.get(parts[1], parts[1]))
+
+
+
+
+
 
 def receiver_loop():
     while True:
@@ -72,6 +128,8 @@ def receiver_loop():
             try:
                 text = payload.decode()
                 print("Text message:", text)
+                update_pos(text)
+
             except:
                 print("Decode failed")
 

@@ -6,7 +6,7 @@ import threading
 
 # Setup server
 server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ip = '127.0.0.1'
+ip = '10.0.0.25'
 port = 12345
 server_sock.bind((ip, port))
 server_sock.listen()
