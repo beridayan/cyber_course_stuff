@@ -9,7 +9,6 @@ from pynput.keyboard import Key, Controller as KeyboardController
 
 mouse = MouseController()
 keyboard = KeyboardController()
-mouse.move(0, -2)#offset fix
 # Connect to server
 server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ip = '10.0.0.25'
@@ -68,12 +67,10 @@ def update_pos(text):
 
     if type == "move":
         
-        # Set pointer position
         mouse.position = (int(parts[1]), int(parts[2]))
         print('Now we have moved it to {}'.format(
             mouse.position))
 
-        # Press and release
     elif type == "click":
         if parts[1] == "Button.left":
             mouse.press(Button.left)
@@ -91,7 +88,6 @@ def update_pos(text):
     elif type == "key" :
         keyboard.press(parts[1])
         keyboard.release(parts[1])
-    # Press and release space
     elif type == "s_key":
         keyboard.press( special_keys.get(parts[1], parts[1]))
         keyboard.release(special_keys.get(parts[1], parts[1]))
