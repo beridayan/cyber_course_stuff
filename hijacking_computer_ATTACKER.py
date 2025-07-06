@@ -45,8 +45,8 @@ def on_move(x, y):
     send_text(f"move {x} {y}")
 
 def on_click(x, y, button, pressed):
-    send_text(f"click {button} {'pressed' if pressed else 'released'} {x} {y}")
-
+    if pressed:  # only send on press, not release
+        send_text(f"click {button} pressed {x} {y}")
 def on_scroll(x, y, dx, dy):
     send_text(f"scroll {'down' if dy < 0 else 'up'} {x} {y}")
 
